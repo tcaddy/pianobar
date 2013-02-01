@@ -17,4 +17,9 @@ This is a Pianobar event_command script with Last.fm scrobbling, and desktop not
 * for Last.fm scrobbling:
   * instal the `lastfm` rubygem
   * You need to create an API account/app for Pianobar and create an authorized session token
+  * create a config file with your Last.fm credentials.  Place the file in the `~/.config/pianobar` folder and name it `last_fm.yml`:
+    --- 
+    api_secret: YOUR_API_SECRET
+    session_key: YOUR_SESSION_KEY
+    api_key: YOUR_API_KEY
 
