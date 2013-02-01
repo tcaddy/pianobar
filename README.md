@@ -12,7 +12,7 @@ This is a Pianobar event_command script with Last.fm scrobbling, and desktop not
     `event_command = PATH_TO_HOME_FOLDER/.config/pianobar/pianobar-lastfm.rb`
 * for desktop notifications:
   * OSX: install the free version of Growl: http://growl.info/downloads
-    * (growl has to be running to see notifications)
+     * (growl has to be running to see notifications)
   * Linux: you need `notify-send` which is usually installed with `libnotify`
 * for Last.fm scrobbling:
   * instal the `lastfm` rubygem
