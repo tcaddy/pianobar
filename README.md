@@ -5,6 +5,8 @@ pianobar
 
 This is a Pianobar event_command script with Last.fm scrobbling, and desktop notifications for Linux and OSX.
 
+(Pianobar is a free/open-source, console-based client for the personalized online radio Pandora.  It plays Pandora without using Flash or Adobe AIR.)
+
 ## Prerequisites:
 * Ruby
 * You need to install Pianobar first: https://github.com/PromyLOPh/pianobar
