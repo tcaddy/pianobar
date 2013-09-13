@@ -133,13 +133,13 @@ module DesktopNotification
         # Mac / OSX platform
         if BinaryCheck.installed?('growlnotify')
           notifyable = true
-          exec_string = "growlnotify --title \"#{rating}#{params['artist']} - #{params['title']}\" --message \"#{params['album']} (#{params['stationName']})\" --name \"Pianobar\" --image \"#{coverart_filename}\""
+          exec_string = "growlnotify --title \"#{rating}#{params['artist'].gsub('"','\"')} - #{params['title'].gsub('"','\"')}\" --message \"#{params['album'].gsub('"','\"')} (#{params['stationName'].gsub('"','\"')})\" --name \"Pianobar\" --image \"#{coverart_filename}\""
         end
       else
         # Linux / Unix platform
         if BinaryCheck.installed?('notify-send')
           notifyable = true
-          exec_string = "notify-send --urgency=low --app-name=Pianobar --expire-time=5000 --icon=#{coverart_filename} --hint=int:transient:1 --category=transfer \"#{rating}#{params['artist']} - #{params['title']}\" \"#{params['album']} (#{params['stationName']})\""
+          exec_string = "notify-send --urgency=low --app-name=Pianobar --expire-time=5000 --icon=#{coverart_filename} --hint=int:transient:1 --category=transfer \"#{rating}#{params['artist'].gsub('"','\"')} - #{params['title'].gsub('"','\"')}\" \"#{params['album'].gsub('"','\"')} (#{params['stationName'].gsub('"','\"')})\""
         end
       end  
     end
