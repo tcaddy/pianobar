@@ -1,0 +1,13 @@
+{
+	"folders":
+	[
+		{
+      "name": "config",
+			"path": "./"
+		},
+    {
+      "name": "src",
+      "path": "/usr/local/Cellar/pianobar"
+    }
+	]
+}

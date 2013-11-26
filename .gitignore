@@ -2,3 +2,4 @@ last_fm.yml
 state
 stdin.txt
 config
+*.sublime-workspace
