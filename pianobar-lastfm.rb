@@ -131,7 +131,14 @@ module DesktopNotification
     else
       if /darwin/ =~ RUBY_PLATFORM
         # Mac / OSX platform
-        if BinaryCheck.installed?('growlnotify')
+        if BinaryCheck.installed?('terminal-notifier')
+          notifyable = true
+          exec_string = "terminal-notifier -title \"#{rating}#{params['artist'].gsub('"','\"')} - #{params['title'].gsub('"','\"')}\" -message \"#{params['album'].gsub('"','\"')} (#{params['stationName'].gsub('"','\"')})\" -group \"Pianobar\" -open \"#{params['detailUrl']}\""
+
+          # make the notification use iTunes icon instead of default Terminal icon
+          # (we cannot use album art in notification)
+          exec_string += " -sender \"com.apple.iTunes\""
+        elsif BinaryCheck.installed?('growlnotify')
           notifyable = true
           exec_string = "growlnotify --title \"#{rating}#{params['artist'].gsub('"','\"')} - #{params['title'].gsub('"','\"')}\" --message \"#{params['album'].gsub('"','\"')} (#{params['stationName'].gsub('"','\"')})\" --name \"Pianobar\" --image \"#{coverart_filename}\""
         end
@@ -184,4 +191,5 @@ case event
     # "I'm tired of this song" (1 month ban on Pandora)
   when 'songexplain'
     # Pandora's reason for playing this track
+    DesktopNotification.notify track
 end
