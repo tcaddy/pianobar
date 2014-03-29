@@ -138,7 +138,7 @@ module DesktopNotification
           # make the notification use iTunes icon instead of default Terminal icon
           # (we cannot use album art in notification unless we are in OSX 10.9.x or higher)
           exec_string += " -sender \"com.apple.iTunes\""
-          exec_string += " -appIcon \"#{coverart_filename}\""
+          exec_string += " -contentImage \"#{coverart_filename}\""
         elsif BinaryCheck.installed?('growlnotify')
           notifyable = true
           exec_string = "growlnotify --title \"#{rating}#{params['artist'].gsub('"','\"')} - #{params['title'].gsub('"','\"')}\" --message \"#{params['album'].gsub('"','\"')} (#{params['stationName'].gsub('"','\"')})\" --name \"Pianobar\" --image \"#{coverart_filename}\""
