@@ -15,56 +15,72 @@ end
 # write the STDIN to a log file so we can debug
 dbg = {"#{ARGV[0]}"=>track,:time=>Time.now.localtime}
 logfile_path = File.join(File.expand_path(File.dirname(__FILE__)), 'stdin.txt')
-f = File.open(logfile_path,"a")
+f = File.open(logfile_path,"w")
 f.write "#{dbg.to_yaml}\n"
 f.close
 
 module LFm
   require 'yaml'
   require 'lastfm'
-  
+
   def scrobble(track)
-    # Scrobble songs on finish, if we listened to at least 75% of the track
-    if (track['songDuration'].to_i*0.75).to_i <= track['songPlayed'].to_i
-      fm.track.scrobble(
-        :artist => track['artist'],
-        :track => track['title'],
-        :album=>track['album'],
-        :chosenByUser => 0
-      )
+    begin
+      return true
+    ensure
+      # Scrobble songs on finish, if we listened to at least 75% of the track
+      if (track['songDuration'].to_i*0.75).to_i <= track['songPlayed'].to_i
+        fm.track.scrobble(
+          :artist => track['artist'],
+          :track => track['title'],
+          :album=>track['album'],
+          :chosenByUser => 0
+        )
+      end
     end
   end
 
   def love(track)
-    # Love songs on thumbs up.
-    fm.track.love(
-      :artist=>track['artist'],
-      :track=>track['title']
-    )
-  end
-
-  def ban(track)
-    # ban songs on thumbs down
-    fm.track.ban(
-      :artist=>track['artist'],
-      :track=>track['title']
-    )
-  end
-
-  def update_now_playing(track)
-    # Update the now playing in LastFM.
-    fm.track.update_now_playing(
-      :artist=>track['artist'],
-      :track=>track['title'],
-      :album=>track['album']
-    )
-
-    if track['rating'] and track['rating'].to_i==1
-      # Playing a song that was previously set to thumbs up on Pandora
+    begin
+      return true
+    ensure
+      # Love songs on thumbs up.
       fm.track.love(
         :artist=>track['artist'],
         :track=>track['title']
       )
+    end
+  end
+
+  def ban(track)
+    begin
+      return true
+    ensure
+      # ban songs on thumbs down
+      fm.track.ban(
+        :artist=>track['artist'],
+        :track=>track['title']
+      )
+    end
+  end
+
+  def update_now_playing(track)
+    begin
+      return true
+    ensure
+      # Update the now playing in LastFM.
+      fm.track.update_now_playing(
+        :artist=>track['artist'],
+        :track=>track['title'],
+        :album=>track['album']
+      )
+
+      if track['rating'] and track['rating'].to_i==1
+        # Playing a song that was previously set to thumbs up on Pandora
+        fm.track.love(
+          :artist=>track['artist'],
+          :track=>track['title']
+        )
+      end
     end
   end
 
@@ -149,7 +165,7 @@ module DesktopNotification
           notifyable = true
           exec_string = "notify-send --urgency=low --app-name=Pianobar --expire-time=5000 --icon=#{coverart_filename} --hint=int:transient:1 --category=transfer \"#{rating}#{params['artist'].gsub('"','\"')} - #{params['title'].gsub('"','\"')}\" \"#{params['album'].gsub('"','\"')} (#{params['stationName'].gsub('"','\"')})\""
         end
-      end  
+      end
     end
 
     if notifyable
